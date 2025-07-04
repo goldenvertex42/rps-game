@@ -1,14 +1,12 @@
 function getComputerChoice() {
-    const choice = Math.floor(Math.random() * 3);
-    if (choice === 0) {
+    const pcInput = Math.floor(Math.random() * 3);
+    if (pcInput === 0) {
         return "Rock";
-    } else if (choice === 1) {
+    } else if (pcInput === 1) {
         return "Paper";
-    } else if (choice === 2) {
+    } else if (pcInput === 2) {
         return "Scissors";
     }
 }
 
 const pcchoice = getComputerChoice();
-
-console.log(pcchoice)
