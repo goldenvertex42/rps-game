@@ -57,12 +57,6 @@ function playRound() {
     
 }
 
-// CALL 5 playRound functions to gather data needed for final evaluation
-playRound();
-playRound();
-playRound();
-playRound();
-playRound();
 
 //COMPUTE who the winner is
 //Display a message oriented to the user's final place
