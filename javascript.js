@@ -1,36 +1,40 @@
-// SET funtion that randomly generates a choice for the computer //
-function getComputerChoice() {
-    const pcInput = Math.floor(Math.random() * 3);
-    if (pcInput === 0) {
-        return "rock";
-    } else if (pcInput === 1) {
-        return "paper";
-    } else if (pcInput === 2) {
-        return "scissors";
-    }
-}
-// SET function that prompts user to make a choice //
-function getHumanChoice() {
-    let userInput = prompt("Rock, Paper, or Scissors?").toLowerCase();
-    if (userInput === "rock") {
-        return "rock";
-    } else if (userInput === "paper") {
-        return "paper";
-    } else if (userInput === "scissors") {
-        return "scissors";
-    }
-}
-
-function playGame() {
-
+// SET buttons variable and initial scores
+let buttons = document.querySelectorAll('button')
 let computerScore = 0
 let humanScore = 0
 
-function playRound() {
-    // SET variables to hold choices within scope of playRound function to obtain new choices //
-    const humanChoice = getHumanChoice();
-    const computerChoice = getComputerChoice();
-    
+// SET function that plays a round of the game and increments winner's score
+function playRound(e) {
+
+    const button = e.currentTarget
+    const value = button.textContent.toLowerCase()
+
+    // SET functions to generate/retrieve data
+    function getHumanChoice() {
+        let userInput = value;
+        if (userInput === "rock") {
+            return "rock";
+        } else if (userInput === "paper") {
+            return "paper";
+        } else if (userInput === "scissors") {
+            return "scissors";
+        }
+}
+    function getComputerChoice() {
+        const pcInput = Math.floor(Math.random() * 3);
+        if (pcInput === 0) {
+            return "rock";
+        } else if (pcInput === 1) {
+            return "paper";
+        } else if (pcInput === 2) {
+            return "scissors";
+        }
+}
+// SET variables to hold data from generation/retrieval
+humanChoice = getHumanChoice();
+computerChoice = getComputerChoice();
+
+// COMPETITIVE CONDITIONALS (Need to be changed from console.log to DOM)
     if (humanChoice === computerChoice) {
         console.log(`You tied! You both picked ${humanChoice}!`);
     } else if (humanChoice === "rock" && computerChoice === "scissors") {
@@ -57,9 +61,12 @@ function playRound() {
     
 }
 
+// ATTACH event listener to buttons
+buttons.forEach(button => {button.addEventListener('click', playRound);})
+
 
 //COMPUTE who the winner is
-//Display a message oriented to the user's final place
+//Display a message oriented to the user's final place **NEED TO CHANGE TO DOM 
 if (humanScore > computerScore) {
     console.log(`YOU WON! You beat the computer ${humanScore} - ${computerScore}`);
 } else if (computerScore > humanScore) {
@@ -67,6 +74,3 @@ if (humanScore > computerScore) {
 } else if (humanScore === computerScore) {
     console.log(`DRAW!! You tied the computer ${humanScore} - ${computerScore}`);
 }
-}
-
-playGame();
