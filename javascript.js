@@ -1,7 +1,31 @@
-// SET buttons variable and initial scores
-let buttons = document.querySelectorAll('button')
+// SET variables initial scores
 let computerScore = 0
 let humanScore = 0
+
+// SET and CREATE variables for the scorecard
+const div = document.getElementById("scorecard");
+const score = document.createElement("h1");
+score.textContent = `${humanScore} - ${computerScore}`;
+div.appendChild(score);
+const declaration = document.createElement("h1");
+div.appendChild(declaration);    
+
+// SET variable for reset button and function to reset scores to zero
+const resetButton = document.getElementById("reset");    
+function resetGame() {
+    humanScore = 0;
+    computerScore = 0;
+    score.textContent = `${humanScore} - ${computerScore}`;
+    declaration.textContent = "New Game!"
+}
+
+
+// ATTACH event listener to the reset button
+resetButton.addEventListener('click',resetGame);
+
+// CREATE buttons variable (that excludes the reset button) and ATTACH event listener to buttons
+const buttons = document.querySelectorAll('button:not(#reset)')
+buttons.forEach(button => {button.addEventListener('click', playRound);})
 
 // SET function that plays a round of the game and increments winner's score
 function playRound(e) {
@@ -34,43 +58,41 @@ function playRound(e) {
 humanChoice = getHumanChoice();
 computerChoice = getComputerChoice();
 
-// COMPETITIVE CONDITIONALS (Need to be changed from console.log to DOM)
-    if (humanChoice === computerChoice) {
-        console.log(`You tied! You both picked ${humanChoice}!`);
-    } else if (humanChoice === "rock" && computerChoice === "scissors") {
-        console.log("You won! Rock beats Scissors!"); 
-        ++humanScore;
-    } else if (humanChoice === "paper" && computerChoice === "rock") {
-        console.log("You won! Paper beats Rock!");
-        ++humanScore;
-    } else if (humanChoice === "scissors" && computerChoice === "paper") {
-        console.log("You won! Scissors beats Paper!");
-        ++humanScore;
-    } else if (humanChoice === "rock" && computerChoice === "paper") {
-        console.log("You lost! Paper beats Rock!");
-        ++computerScore; 
-    } else if (humanChoice === "paper" && computerChoice === "scissors") {
-        console.log("You lost! Scissors beats Paper!");
-        ++computerScore;
-    } else if (humanChoice === "scissors" && computerChoice === "rock") {
-        console.log("You lost! Rock beats Scissors!");
-        ++computerScore;
-    } else {
-        console.log("Invalid choice. Please try again.");
+// SET function to generate the result of the round
+    function roundResult(humanChoice, computerChoice) {
+        if (humanChoice === computerChoice) {
+            return `You tied!`;
+        } else if (
+                (humanChoice === "rock" && computerChoice === "scissors") ||
+                (humanChoice === "paper" && computerChoice === "rock") ||
+                (humanChoice === "scissors" && computerChoice === "paper")  
+        ) {return "You won!";
+        } else {return "You lost!"}
     }
+// SET function to increment the winner's score
+    function handleScore(result) {
+        if (result === 'You won!') {
+            ++humanScore;
+        } else if (result === 'You lost!') {
+            ++computerScore;
+        } else {}
+    }
+// SET variable to hold results of round (You tied!, You lost!, You won!)    
+    result = roundResult(humanChoice, computerChoice);
+
+// RUN function to increment the winner's score    
+    handleScore(result); 
+
+// DECLARE results in two elements - declaration of win, loss, or tie, and the score    
     
-}
+    declaration.textContent = result;
+    
+    score.textContent = `${humanScore} - ${computerScore}`;
+    
+    if (humanScore >= 5) {
+        declaration.textContent = "You are the WINNER!"
+    } else if (computerScore >= 5) {
+        declaration.textContent = "GAME OVER! Try again!"
+    }
 
-// ATTACH event listener to buttons
-buttons.forEach(button => {button.addEventListener('click', playRound);})
-
-
-//COMPUTE who the winner is
-//Display a message oriented to the user's final place **NEED TO CHANGE TO DOM 
-if (humanScore > computerScore) {
-    console.log(`YOU WON! You beat the computer ${humanScore} - ${computerScore}`);
-} else if (computerScore > humanScore) {
-    console.log(`YOU LOST! The computer beat you ${computerScore} - ${humanScore}`);
-} else if (humanScore === computerScore) {
-    console.log(`DRAW!! You tied the computer ${humanScore} - ${computerScore}`);
 }
